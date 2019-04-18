@@ -66,6 +66,8 @@ public abstract class AbstractLoadBalance implements LoadBalance {
      * @return weight
      */
     protected int getWeight(Invoker<?> invoker, Invocation invocation) {
+        //默认权重是100
+        //他总是优先从本地map中取得 如果更改之后 岂不是不生效?
         int weight = invoker.getUrl().getMethodParameter(invocation.getMethodName(), Constants.WEIGHT_KEY, Constants.DEFAULT_WEIGHT);
         if (weight > 0) {
             long timestamp = invoker.getUrl().getParameter(Constants.REMOTE_TIMESTAMP_KEY, 0L);

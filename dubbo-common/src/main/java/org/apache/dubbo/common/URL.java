@@ -90,6 +90,7 @@ class URL implements Serializable {
 
     private final String path;
 
+    // TODO: 2019/4/18 我想知道这个parameters是什么时候构建好的? 是注册服务的时候吗?
     private final Map<String, String> parameters;
 
     // ==== cache ====
@@ -778,6 +779,7 @@ class URL implements Serializable {
 
     public int getMethodParameter(String method, String key, int defaultValue) {
         String methodKey = method + "." + key;
+        //这里取到的weight是旧的 已经存入map中的
         Number n = getNumbers().get(methodKey);
         if (n != null) {
             return n.intValue();
@@ -1240,6 +1242,8 @@ class URL implements Serializable {
         return buildString(appendUser, appendParameter, false, false, parameters);
     }
 
+    //示例
+    //dubbo://10.29.196.121:20883/com.netfinworks.pfs.service.payment.BalancePaymentFacade?application=pfs-payment&default.export=true&dubbo=scpay-2.6.9&export=true&generic=false&interface=com.netfinworks.pfs.service.payment.BalancePaymentFacade&pid=22190&revision=2.2.0&side=provider×tamp=1554992340991
     private String buildString(boolean appendUser, boolean appendParameter, boolean useIP, boolean useService, String... parameters) {
         StringBuilder buf = new StringBuilder();
         if (StringUtils.isNotEmpty(protocol)) {
